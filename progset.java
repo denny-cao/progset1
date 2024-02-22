@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class progset1 {
+public class progset {
 
     public static class UFTree { //union find data structure
 
@@ -129,6 +129,7 @@ public class progset1 {
         for (int i = 0; i < trials; i++) {
             average += trialResults[i];
         }
+        average = average / trials;
         System.out.println(average + " " + n + " " + trials + " " + 0);
     }
 
@@ -157,13 +158,13 @@ public class progset1 {
 
            }
            trialResults[trial] = kruskal(n, edges);
-
-           double average = 0;
-           for (int i = 0; i < trials; i++) {
-                average += trialResults[i];
-           }
-           System.out.println(average + " " + n + " " + trials + " " + 2);
        }
+       double average = 0;
+       for (int i = 0; i < trials; i++) {
+           average += trialResults[i];
+       }
+       average = average / trials;
+       System.out.println(average + " " + n + " " + trials + " " + 2);
    }
     public static void main(String[] args) {
 
