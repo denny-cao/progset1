@@ -246,12 +246,7 @@ public class randmst {
         System.out.println(average + " " + n + " " + trials + " " + 4);
     }
 
-    public static void main(String[] args) {
-
-        int n = Integer.parseInt(args[1]);
-        int trials = Integer.parseInt(args[2]);
-        int dim = Integer.parseInt(args[3]);
-
+    public static void runTrials(int n, int trials, int dim) {
         if (dim == 0) {
             zeroDimension(n, trials);
         } else if (dim == 2) {
@@ -262,5 +257,16 @@ public class randmst {
             fourDimension(n, trials);
         }
     }
+    public static void main(String[] args) {
+        
+        int[] n = new int[]{128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144};
+        int trials = 5;
+        int[] dimensions = new int[]{0, 2, 3, 4};
 
+        for (int i = 0; i < n.length; i++) {
+            for (int j = 0; j < dimensions.length; j++) {
+                runTrials(n[i], trials, dimensions[j]);
+            }
+        }
+    }
 }
