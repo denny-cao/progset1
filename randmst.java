@@ -105,10 +105,10 @@ public class randmst {
 
     public static double threshold(int n, int dim) {
         if (dim == 0) {
-            return 1.000000000000000000000000000000000000000000000000000001 * Math.log(n) / n;
+            return  Math.log(n) / n;
         }
 
-        return Math.pow(1.000000000000000000000000000000000000000000000000000001 * Math.log(n) / n, 1.0/dim);
+        return Math.pow(Math.log(n) / n, 1.0/dim);
     }
 
     public static void zeroDimension(int n, int trials) {
