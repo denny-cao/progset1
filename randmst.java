@@ -35,7 +35,7 @@ public class randmst {
             int s1root = find(s1);
             int s2root = find(s2);
 
-            if (rank[s1root] > rank[s2root]) {parent[s2root] = s1root; rank[s1root]++;} //higher rank root becomes parent of the other and ranks update
+            if (rank[s1root] > rank[s2root]) {parent[s2root] = s1root;} //higher rank root becomes parent of the other and ranks update
             else {parent[s1root] = s2root; rank[s2root]++;}
         }
     }
@@ -68,9 +68,9 @@ public class randmst {
         edge MST[] = new edge[n];
         UFTree graph = new UFTree(n);
 
-        while (usedEdges < n-2) {
+        while (usedEdges < n-1 && i < edges.size()) {
 
-            edge smallestEdge = edges.get(i); //get the next edge
+            edge smallestEdge = sortedEdges.get(i); //get the next edge
             int newv1 = graph.find(smallestEdge.v1);
             int newv2 = graph.find(smallestEdge.v2); //get ready to check for cycles
 
