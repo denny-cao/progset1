@@ -92,15 +92,23 @@ public class progset {
     }
 
     // Threshold function
-    public static double euclideanDistance2D(double x1, double y1, double x2, double y2) {
+    public static double euclideanDistance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
-
-    public static double zeroThreshold(int n) {
-        return 2 * Math.log(n) / n;
+    public static double euclideanDistance(double x1, double y1, double z1, double x2, double y2, double z2) {
+        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2) + Math.pow((z2 - z1), 2));
     }
-    public static double twoThreshold(int n) {
-        return Math.sqrt(2 * Math.log(n) / n);
+
+    public static double euclideanDistance(double x1, double y1, double z1, double w1, double x2, double y2, double z2, double w2) {
+        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2) + Math.pow((z2 - z1), 2) + Math.pow((w2 - w1), 2));
+    }
+
+    public static double threshold(int n, int dim) {
+        if (dim == 0) {
+            return 2 * Math.log(n) / n;
+        }
+
+        return Math.pow(2 * Math.log(n) / n, 1.0/dim);
     }
 
     public static void zeroDimension(int n, int trials) {
@@ -108,7 +116,7 @@ public class progset {
         double[] trialResults = new double[trials];
 
         for (int trial = 0; trial < trials; trial++) {
-            double threshold = zeroThreshold(n);
+            double threshold = threshold(n, 0);
             List<edge> graphEdges = new ArrayList<edge>();
 
             // Generate a complete undirected graph with n vertices... Avoid repeated edges (aka if i,j is in the list, j,i should not be)
@@ -146,10 +154,10 @@ public class progset {
                points[i][1] = Math.random();
            }
 
-           double threshold = twoThreshold(n);
+           double threshold = threshold(n, 2);
            for (int i = 0; i < n; i++) {
                for (int j = i + 1; j < n; j++) {
-                   double distance = euclideanDistance2D(points[i][0], points[i][1], points[j][0], points[j][1]);
+                   double distance = euclideanDistance(points[i][0], points[i][1], points[j][0], points[j][1]);
 
                    if (distance < threshold) {
                        edges.add(new edge(i, j, distance));
@@ -166,6 +174,78 @@ public class progset {
        average = average / trials;
        System.out.println(average + " " + n + " " + trials + " " + 2);
    }
+
+    public static void threeDimension(int n, int trials) {
+
+        double[] trialResults = new double[trials];
+
+        for (int trial = 0; trial < trials; trial++) {
+            List<edge> edges = new ArrayList<>();
+            double[][] points = new double[n][3];
+
+            for (int i = 0; i < n; i++) {
+                points[i][0] = Math.random();
+                points[i][1] = Math.random();
+                points[i][2] = Math.random();
+            }
+
+            double threshold = threshold(n, 3);
+            for (int i = 0; i < n; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    double distance = euclideanDistance(points[i][0], points[i][1], points[i][2], points[j][0], points[j][1], points[j][2]);
+
+                    if (distance < threshold) {
+                        edges.add(new edge(i, j, distance));
+                    }
+                }
+
+            }
+            trialResults[trial] = kruskal(n, edges);
+        }
+        double average = 0;
+        for (int i = 0; i < trials; i++) {
+            average += trialResults[i];
+        }
+        average = average / trials;
+        System.out.println(average + " " + n + " " + trials + " " + 3);
+    }
+
+    public static void fourDimension(int n, int trials) {
+
+        double[] trialResults = new double[trials];
+
+        for (int trial = 0; trial < trials; trial++) {
+            List<edge> edges = new ArrayList<>();
+            double[][] points = new double[n][4];
+
+            for (int i = 0; i < n; i++) {
+                points[i][0] = Math.random();
+                points[i][1] = Math.random();
+                points[i][2] = Math.random();
+                points[i][3] = Math.random();
+            }
+
+            double threshold = threshold(n, 4);
+            for (int i = 0; i < n; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    double distance = euclideanDistance(points[i][0], points[i][1], points[i][2], points[i][3], points[j][0], points[j][1], points[j][2], points[j][3]);
+
+                    if (distance < threshold) {
+                        edges.add(new edge(i, j, distance));
+                    }
+                }
+
+            }
+            trialResults[trial] = kruskal(n, edges);
+        }
+        double average = 0;
+        for (int i = 0; i < trials; i++) {
+            average += trialResults[i];
+        }
+        average = average / trials;
+        System.out.println(average + " " + n + " " + trials + " " + 4);
+    }
+
     public static void main(String[] args) {
 
         int n = Integer.parseInt(args[1]);
@@ -176,6 +256,10 @@ public class progset {
             zeroDimension(n, trials);
         } else if (dim == 2) {
             twoDimension(n, trials);
+        } else if (dim == 3) {
+            threeDimension(n, trials);
+        } else if (dim == 4) {
+            fourDimension(n, trials);
         }
     }
 
