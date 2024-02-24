@@ -108,7 +108,7 @@ public class randmst {
             return  Math.log(n) / n;
         }
 
-        return Math.sqrt(dim) * Math.log(n) / n;
+        return Math.sqrt(dim) * Math.pow(Math.log(n) / n,1/dim);
     }
 
     public static void zeroDimension(int n, int trials) {
